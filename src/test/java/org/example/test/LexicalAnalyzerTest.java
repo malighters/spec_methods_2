@@ -1,7 +1,6 @@
 package org.example.test;
 
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.Assert;
 import java.util.List;
 import org.example.LexicalAnalyzer;
@@ -10,12 +9,12 @@ import org.example.Pair;
 public class LexicalAnalyzerTest {
     private LexicalAnalyzer analyzer;
 
-    @BeforeClass
-    public void setUpClass() {
+    @BeforeTest
+    public void setUp() {
         analyzer = new LexicalAnalyzer();
     }
 
-    @Test
+    @Test(groups = { "goodInput", "1" })
     public void testCommentLexeme() {
         String code = "; Example of comment";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -23,7 +22,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(0).getFirst(), "; Example of comment");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "2" })
     public void testReservedWordLexeme() {
         String code = "MOV adsa00, 1";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -32,7 +31,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(0).getSecond(), "Reserved word");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "1" })
     public void testDecNumberLexeme() {
         String code = "MOV adsa00, 20";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -41,7 +40,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(3).getSecond(), "Dec number");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "2" })
     public void testSeparatorLexeme() {
         String code = "DIV adsa00, 1";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -49,7 +48,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(2).getFirst(), ",");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "1" })
     public void testOperatorLexeme() {
         String code = "AND eax, ebx";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -57,7 +56,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(0).getSecond(), "Operator");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "2" })
     public void testHexNumberLexeme() {
         String code = "DIV a, 0x10";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -65,7 +64,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(3).getFirst(), "0x10");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "1" })
     public void testDirectiveLexeme() {
         String code = "#directive";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -73,7 +72,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(0).getSecond(), "Preprocessor");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "2" })
     public void testFloatNumberLexeme() {
         String code = "SUB c, 21.2";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -81,7 +80,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(3).getSecond(), "Float number");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "1" })
     public void testCharacterConstantLexeme() {
         String code = "MOV c, 'a'";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -90,7 +89,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(3).getSecond(), "Char");
     }
 
-    @Test
+    @Test(groups = { "goodInput", "2" })
     public void testStringConstantLexeme() {
         String code = "DIV d, \"asd\"";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -98,7 +97,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(3).getSecond(), "String");
     }
 
-    @Test
+    @Test(groups = { "badInput", "1" })
     public void testIncorrectCodeAnalysis() {
         String code = "<>";
         List<Pair<String, String>> result = analyzer.analyze(code);
@@ -106,7 +105,7 @@ public class LexicalAnalyzerTest {
         Assert.assertEquals(result.get(0).getSecond(), "Error");
     }
 
-    @Test(expectedExceptions=IllegalArgumentException.class)
+    @Test(expectedExceptions=IllegalArgumentException.class, groups = { "badInput", "2" })
     public void testEmptyCodeAnalysis() {
         String code = "";
         List<Pair<String, String>> result = analyzer.analyze(code);

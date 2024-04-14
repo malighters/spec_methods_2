@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Grouped Execution Suite" parallel="methods" thread-count="2">
+    <test name="Lexical Analyzer Test">
+        <groups>
+            <run>
+                <include name="goodInput"/>
+                <exclude name="2"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="org.example.test.LexicalAnalyzerTest"/>
+        </classes>
+    </test>
+</suite>

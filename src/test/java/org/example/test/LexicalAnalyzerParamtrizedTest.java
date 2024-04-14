@@ -4,6 +4,7 @@ import org.example.LexicalAnalyzer;
 import org.example.Pair;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.util.List;
